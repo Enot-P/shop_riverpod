@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shop_riverpod/providers/cart_notifier.dart';
 import 'package:shop_riverpod/providers/products_provider.dart';
 import 'package:shop_riverpod/shared/cart_icon.dart';
 
@@ -9,6 +10,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final products = ref.watch(productsProvider);
+    final cartProducts = ref.watch(cartNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Garage Sale Products'),
@@ -22,7 +24,7 @@ class HomeScreen extends ConsumerWidget {
             crossAxisCount: 2,
             mainAxisSpacing: 20,
             crossAxisSpacing: 20,
-            childAspectRatio: 0.9,
+            childAspectRatio: 0.85,
           ),
           itemBuilder: (context, index) {
             return Container(
@@ -33,6 +35,9 @@ class HomeScreen extends ConsumerWidget {
                   Image.asset(products[index].image, width: 60, height: 60),
                   Text(products[index].title),
                   Text('\$${products[index].price}'),
+                  !cartProducts.contains(products[index])
+                      ? ElevatedButton(onPressed: () {}, child: const Text('add to cart'))
+                      : ElevatedButton(onPressed: () {}, child: const Text('remove')),
                 ],
               ),
             );
