@@ -26,3 +26,13 @@ class CartNotifier extends _$CartNotifier {
     }
   }
 }
+
+@riverpod
+int cartTotal(Ref ref) {
+  final cartProducts = ref.watch(cartProvider);
+
+  int total = 0;
+  total = cartProducts.fold(0, (prev, current) => prev + current.price);
+
+  return total;
+}

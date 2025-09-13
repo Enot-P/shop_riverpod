@@ -15,6 +15,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final cartProducts = ref.watch(cartProvider);
+    final total = ref.watch(cartTotalProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart'),
@@ -26,22 +27,23 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         child: Column(
           children: [
             Column(
-              children: cartProducts
-                  .map(
-                    (p) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        spacing: 10,
-                        children: [
-                          Image.asset(p.image, width: 60, height: 60),
-                          Text(p.title),
-                          const Expanded(child: SizedBox()),
-                          Text('\$${p.price}'),
-                        ],
-                      ),
+              children: [
+                ...cartProducts.map(
+                  (p) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      spacing: 10,
+                      children: [
+                        Image.asset(p.image, width: 60, height: 60),
+                        Text(p.title),
+                        const Expanded(child: SizedBox()),
+                        Text('\$${p.price}'),
+                      ],
                     ),
-                  )
-                  .toList(), // output cart products here
+                  ),
+                ),
+                Text('Total price: ${total}'),
+              ], // output cart products here
             ),
 
             // output totals here
